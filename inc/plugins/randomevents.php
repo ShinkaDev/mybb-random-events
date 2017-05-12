@@ -21,7 +21,7 @@ function randomevents_info() {
 		'website'		=> '',
 		'author'		=> 'Shinka',
 		'authorsite'	=> 'https://github.com/kalynrobinson/randomevents',
-		'version'		=> '0.0.1',
+		'version'		=> '1.0.0',
 		'guid' 			=> '',
 		'codename'		=> 'randomevents',
 		'compatibility' => '18'
@@ -150,9 +150,8 @@ function randomevents_run($post) {
     $groups = $mybb->settings['randomevents_groups'];
     if ($groups != -1) {
         $groups = explode(',', $groups);
-        $query = $db->simple_select('users', 'usergroup', "uid={$post->post_insert_data['uid']}");
-        $user = $db->fetch_array($query);
-        if (!in_array($user['usergroup'], $groups)) return;
+        $user_groups = explode(',', $mybb->user['usergroup']);
+        if (count(array_intersect($user_groups, $groups)) <= 0) return;
     }
 
     // Choose random event
